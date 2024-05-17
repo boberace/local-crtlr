@@ -1,6 +1,6 @@
 {
-  "short_name": "PicoW_Pickup",
-  "name": "Interface for PicoW Pickup",
+  "short_name": "Local Controller",
+  "name": "local Controller for wifi connected microcontroller",
   "icons": [
     {
       "src": "img/DAELAK-16X16.png",
