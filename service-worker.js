@@ -5,10 +5,6 @@ var filesToCache = [
     './css/common.css',
     './css/popup.css',
     './css/style.css',
-    // './html/effect0.html',
-    // './html/effect1.html',
-    // './html/effect2.html',
-    // './html/effect3.html',
     './js/main.js' 
 ];
 
