@@ -242,46 +242,95 @@
  
   }
 
-  function getValue(elementNumber, elementTypeAbbr) {
-    return new Promise(function(resolve, reject) {
-      const xhr = new XMLHttpRequest();
-      const arrayNumber = elementNumber - 1;
-      xhr.open("POST", url + ":" + serverPort);
-      xhr.setRequestHeader("Content-Type", "text/plain");
-
-      xhr.onload = function() {
-        console.log("getvalue recieved: ", pageChar, elementNumber, elementTypeAbbr, xhr.responseText);
-        if (xhr.status == 200) {
-          resolve(xhr.responseText);
-        } else {
-          reject(xhr.statusText);
-        }
-      };
-
-      console.log("getvalue sent: ", pageChar, elementNumber, elementTypeAbbr);
-      xhr.send("getvalue" + pageChar + arrayNumber + elementTypeAbbr);
-    });
-  }
-
   function setValue(elementNumber, elementTypeAbbr, elementValue) {
-    return new Promise(function(resolve, reject) {
-      const xhr = new XMLHttpRequest();
-      const arrayNumber = elementNumber - 1;
-      xhr.open("POST", url + ":" + serverPort);
-      xhr.setRequestHeader("Content-Type", "text/plain");
+  return fetch(url + ":" + serverPort, {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'text/plain'
+    },
+    body: "setvalue" + pageChar + (elementNumber - 1) + elementTypeAbbr + elementValue
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.text();
+    } else {
+      throw new Error('Network response was not ok');
+    }
+  })
+  .then(data => {
+    console.log("setvalue received: ", pageChar, elementNumber, elementTypeAbbr, data);
+    return data;
+  })
+  .catch(error => {
+    console.error('There has been a problem with your fetch operation:', error);
+  });
+}
 
-      xhr.onload = function() {
-        if (xhr.status == 200) {
-          resolve(xhr.responseText);
-        } else {
-          reject(xhr.statusText);
-        }
-      };
+function getValue(elementNumber, elementTypeAbbr) {
+  const arrayNumber = elementNumber - 1;
+  return fetch(url + ":" + serverPort, {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'text/plain'
+    },
+    body: "getvalue" + pageChar + arrayNumber + elementTypeAbbr
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.text();
+    } else {
+      throw new Error('Network response was not ok');
+    }
+  })
+  .then(data => {
+    console.log("getvalue received: ", pageChar, elementNumber, elementTypeAbbr, data);
+    return data;
+  })
+  .catch(error => {
+    console.error('There has been a problem with your fetch operation:', error);
+  });
+}
 
-      console.log("setvalue sent: ", pageChar, elementNumber, elementTypeAbbr, elementValue);
-      xhr.send("setvalue" + pageChar + arrayNumber + elementTypeAbbr + elementValue);
-    });
-  }
+  // function getValue(elementNumber, elementTypeAbbr) {
+  //   return new Promise(function(resolve, reject) {
+  //     const xhr = new XMLHttpRequest();
+  //     const arrayNumber = elementNumber - 1;
+  //     xhr.open("POST", url + ":" + serverPort);
+  //     xhr.setRequestHeader("Content-Type", "text/plain");
+
+  //     xhr.onload = function() {
+  //       console.log("getvalue recieved: ", pageChar, elementNumber, elementTypeAbbr, xhr.responseText);
+  //       if (xhr.status == 200) {
+  //         resolve(xhr.responseText);
+  //       } else {
+  //         reject(xhr.statusText);
+  //       }
+  //     };
+
+  //     console.log("getvalue sent: ", pageChar, elementNumber, elementTypeAbbr);
+  //     xhr.send("getvalue" + pageChar + arrayNumber + elementTypeAbbr);
+  //   });
+  // }
+
+  // function setValue(elementNumber, elementTypeAbbr, elementValue) {
+  //   return new Promise(function(resolve, reject) {
+  //     const xhr = new XMLHttpRequest();
+  //     const arrayNumber = elementNumber - 1;
+  //     xhr.open("POST", url + ":" + serverPort);
+  //     xhr.setRequestHeader("Content-Type", "text/plain");
+
+  //     xhr.onload = function() {
+  //       if (xhr.status == 200) {
+  //         resolve(xhr.responseText);
+  //       } else {
+  //         reject(xhr.statusText);
+  //       }
+  //     };
+
+  //     console.log("setvalue sent: ", pageChar, elementNumber, elementTypeAbbr, elementValue);
+  //     xhr.send("setvalue" + pageChar + arrayNumber + elementTypeAbbr + elementValue);
+  //   });
+  // }
 
 
 </script>
