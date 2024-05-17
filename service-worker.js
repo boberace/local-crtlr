@@ -1,4 +1,4 @@
-var cacheName = 'picow-pickup';
+var cacheName = 'local-ctrlr';
 var filesToCache = [
     './',
     './index.html',
