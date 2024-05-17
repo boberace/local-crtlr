@@ -2,4 +2,4 @@
 html page to control a wifi connected microcontroller
 
 link:
-https://boberace.github.io/local-crtlr/
+https://boberace.github.io/local-ctrlr/
