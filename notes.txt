@@ -1,0 +1,5 @@
+
+
+save view to micro so when after closed and reopened it goes back
+
+
