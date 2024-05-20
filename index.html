@@ -2,18 +2,9 @@
 <html lang="en-US">
 <head>
 
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" type="text/css" href="css/common.css">
-  <link rel="shortcut icon" href="img/favicon.png">
-  <link rel="apple-touch-icon" href="img/DAELAK-192x192.png">
   <meta name="viewport" content="width=device-width, user-scalable=1">
-  <meta name="theme-color" content="#ffffff"/>
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Hello World">
-  <meta name="msapplication-TileImage" content="images/hello-icon-144.png">
-  <meta name="msapplication-TileColor" content="#FFFFFF">
-  <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+  <title>PicoW</title>
+  <link rel="icon" type="image/png" href="/favicon.ico">
 
 <style>
 </style>
@@ -70,12 +61,10 @@
     
   </div>
 
-<script src="js/main.js"></script>
 <script>
 
-
-  const url = "picow"
-  const serverPort = 4242
+  const url = 'http://picow.local'; // Ensure the correct protocol is used
+  const serverPort = 4242; // Define the server port
   const pageChar = 'a' // make unique for each page
 
   document.addEventListener("DOMContentLoaded", function() {
@@ -242,96 +231,56 @@
  
   }
 
-//   function setValue(elementNumber, elementTypeAbbr, elementValue) {
-//   return fetch(url + ":" + serverPort, {
-//     method: 'POST', 
-//     headers: {
-//       'Content-Type': 'text/plain'
-//     },
-//     body: "setvalue" + pageChar + (elementNumber - 1) + elementTypeAbbr + elementValue
-//   })
-//   .then(response => {
-//     if (response.ok) {
-//       return response.text();
-//     } else {
-//       throw new Error('Network response was not ok');
-//     }
-//   })
-//   .then(data => {
-//     console.log("setvalue received: ", pageChar, elementNumber, elementTypeAbbr, data);
-//     return data;
-//   })
-//   .catch(error => {
-//     console.error('There has been a problem with your fetch operation:', error);
-//   });
-// }
 
-// function getValue(elementNumber, elementTypeAbbr) {
-//   const arrayNumber = elementNumber - 1;
-//   return fetch(url + ":" + serverPort, {
-//     method: 'POST', 
-//     headers: {
-//       'Content-Type': 'text/plain'
-//     },
-//     body: "getvalue" + pageChar + arrayNumber + elementTypeAbbr
-//   })
-//   .then(response => {
-//     if (response.ok) {
-//       return response.text();
-//     } else {
-//       throw new Error('Network response was not ok');
-//     }
-//   })
-//   .then(data => {
-//     console.log("getvalue received: ", pageChar, elementNumber, elementTypeAbbr, data);
-//     return data;
-//   })
-//   .catch(error => {
-//     console.error('There has been a problem with your fetch operation:', error);
-//   });
-// }
 
-  function getValue(elementNumber, elementTypeAbbr) {
-    return new Promise(function(resolve, reject) {
-      const xhr = new XMLHttpRequest();
-      const arrayNumber = elementNumber - 1;
-      xhr.open("POST", url + ":" + serverPort);
-      xhr.setRequestHeader("Content-Type", "text/plain");
+function setValue(elementNumber, elementTypeAbbr, elementValue) {
+  return fetch(`${url}:${serverPort}`, {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'text/plain'
+    },
+    body: `setvalue${pageChar}${elementNumber - 1}${elementTypeAbbr}${elementValue}`
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.text();
+    } else {
+      throw new Error('Network response was not ok');
+    }
+  })
+  .then(data => {
+    console.log("setvalue received: ", pageChar, elementNumber, elementTypeAbbr, data);
+    return data;
+  })
+  .catch(error => {
+    console.error('There has been a problem with your fetch operation:', error);
+  });
+}
 
-      xhr.onload = function() {
-        console.log("getvalue recieved: ", pageChar, elementNumber, elementTypeAbbr, xhr.responseText);
-        if (xhr.status == 200) {
-          resolve(xhr.responseText);
-        } else {
-          reject(xhr.statusText);
-        }
-      };
-
-      console.log("getvalue sent: ", pageChar, elementNumber, elementTypeAbbr);
-      xhr.send("getvalue" + pageChar + arrayNumber + elementTypeAbbr);
-    });
-  }
-
-  function setValue(elementNumber, elementTypeAbbr, elementValue) {
-    return new Promise(function(resolve, reject) {
-      const xhr = new XMLHttpRequest();
-      const arrayNumber = elementNumber - 1;
-      xhr.open("POST", url + ":" + serverPort);
-      xhr.setRequestHeader("Content-Type", "text/plain");
-
-      xhr.onload = function() {
-        if (xhr.status == 200) {
-          resolve(xhr.responseText);
-        } else {
-          reject(xhr.statusText);
-        }
-      };
-
-      console.log("setvalue sent: ", pageChar, elementNumber, elementTypeAbbr, elementValue);
-      xhr.send("setvalue" + pageChar + arrayNumber + elementTypeAbbr + elementValue);
-    });
-  }
-
+function getValue(elementNumber, elementTypeAbbr) {
+  const arrayNumber = elementNumber - 1;
+  return fetch(`${url}:${serverPort}`, {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'text/plain'
+    },
+    body: `getvalue${pageChar}${arrayNumber}${elementTypeAbbr}`
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.text();
+    } else {
+      throw new Error('Network response was not ok');
+    }
+  })
+  .then(data => {
+    console.log("getvalue received: ", pageChar, elementNumber, elementTypeAbbr, data);
+    return data;
+  })
+  .catch(error => {
+    console.error('There has been a problem with your fetch operation:', error);
+  });
+}
 
 </script>
 
